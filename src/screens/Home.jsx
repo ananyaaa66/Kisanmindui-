@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CloudRain, ScanLine, TrendingUp, FileBadge, CloudSun, FileText, ChevronRight } from 'lucide-react'
+import { CloudRain, ScanLine, TrendingUp, FileBadge, CloudSun, FileText, ChevronRight, User, Settings, FileCheck, Activity } from 'lucide-react'
 import { useApp } from '../context/AppContext.jsx'
 import { t } from '../data/i18n.js'
 import GrowthLine from '../components/GrowthLine.jsx'
 import SpeakButton from '../components/SpeakButton.jsx'
-import { farmer, weatherSnapshot, todayAdvisory, recentReports } from '../data/mockData.js'
+import { farmer, weatherSnapshot, todayAdvisory, recentReports, cropHealthScore } from '../data/mockData.js'
 
 const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' })
 
@@ -18,30 +18,80 @@ const tiles = [
 
 export default function Home() {
   const { lang, setReportOpen } = useApp()
+  const navigate = useNavigate()
+
+  const userMenuItems = [
+    { to: '/profile', icon: User, label: { en: 'My Profile', hi: 'मेरा प्रोफाइल' } },
+    { to: '/reports', icon: FileCheck, label: { en: 'Reports', hi: 'रिपोर्ट' } },
+    { to: '/settings', icon: Settings, label: { en: 'Settings', hi: 'सेटिंग्स' } },
+  ]
+
   return (
     <div className="px-4 pt-4 pb-32 space-y-4 animate-sprout">
-      {/* Greeting card */}
+      {/* Greeting card with user menu */}
       <div className="glass p-4 relative overflow-hidden">
         <span className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-crop to-lime" />
-        <p className="text-[var(--text-dim)] text-sm">{t('greeting', lang)} 🙏</p>
-        <h2 className="text-2xl font-bold mt-0.5">{farmer.name[lang]}</h2>
-        <p className="text-sm text-[var(--text-dim)] mt-1">{farmer.location[lang]} · {today}</p>
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex-1">
+            <p className="text-[var(--text-dim)] text-sm">{t('greeting', lang)} 🙏</p>
+            <h2 className="text-2xl font-bold mt-0.5">{farmer.name[lang]}</h2>
+            <p className="text-sm text-[var(--text-dim)] mt-1">{farmer.location[lang]} · {today}</p>
+          </div>
+          <div className="flex gap-1">
+            {userMenuItems.map(({ to, icon: Icon, label }) => (
+              <button
+                key={to}
+                onClick={() => navigate(to)}
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                title={label[lang]}
+              >
+                <Icon size={18} className="text-cropbright" />
+              </button>
+            ))}
+          </div>
+        </div>
         <GrowthLine className="mt-3 opacity-70" />
       </div>
 
-      {/* Weather snapshot strip */}
-      <div className="glass p-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <CloudRain className="text-lime" size={28} />
-          <div>
-            <p className="num text-2xl font-bold">{weatherSnapshot.temp}°C</p>
-            <p className="text-xs text-[var(--text-dim)]">{weatherSnapshot.condition[lang]}</p>
+      {/* Crop health + Weather strip */}
+      <div className="grid grid-cols-2 gap-3">
+        {/* Crop health card */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="glass p-3"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <Activity size={18} className="text-lime" />
+            <span className="text-xs text-[var(--text-dim)]">{t('cropHealth', lang)}</span>
           </div>
-        </div>
-        <div className="text-right">
-          <p className="num text-xl font-bold text-lime">{weatherSnapshot.rainChance}%</p>
-          <p className="text-xs text-[var(--text-dim)]">{t('rain', lang)}</p>
-        </div>
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="num text-2xl font-bold">{cropHealthScore.overall}%</p>
+              <p className="text-xs text-[var(--text-dim)] mt-0.5">{cropHealthScore.foliage === 'good' ? '✓ Good' : '⚠ Fair'}</p>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-lime/20 flex items-center justify-center text-sm">
+              🌱
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Weather snapshot strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="glass p-3 flex items-center justify-between"
+        >
+          <div className="flex items-center gap-2">
+            <CloudRain className="text-lime" size={20} />
+            <div>
+              <p className="num text-lg font-bold">{weatherSnapshot.temp}°C</p>
+              <p className="text-xs text-[var(--text-dim)]">{weatherSnapshot.rainChance}%</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Today's advisory hero */}

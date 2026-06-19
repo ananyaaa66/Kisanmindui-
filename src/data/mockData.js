@@ -123,3 +123,225 @@ export const soilTip = {
   en: 'Moist black soil + warm season favours fungal growth. Ensure drainage and avoid overhead watering in evening.',
   hi: 'नम काली मिट्टी और गर्म मौसम फफूंद बढ़ाते हैं। जल निकासी रखें और शाम को ऊपर से सिंचाई न करें।',
 }
+
+// Agent 5: Historical disease reports for AdvisoryReports screen
+export const advisoryReports = [
+  {
+    id: 'report-001',
+    title: { en: 'Tomato Early Blight Detection', hi: 'टमाटर अगेती झुलसा पहचान' },
+    date: '12 Jun 2024',
+    severity: 'amber',
+    crop: 'tomato',
+    imageUrl: null, // placeholder for uploaded image
+    treatment: 'Mancozeb 75% WP - 2.5 g/L',
+    recommendations: {
+      en: ['Spray immediately before rain', 'Improve drainage around plants', 'Remove infected leaves', 'Repeat spray in 10 days'],
+      hi: ['बारिश से पहले तुरंत छिड़कें', 'पौधों के पास ड्रेनेज बेहतर करें', 'संक्रमित पत्तियाँ हटाएँ', '10 दिन बाद दोहराएँ'],
+    },
+    status: 'resolved',
+  },
+  {
+    id: 'report-002',
+    title: { en: 'Onion Neck Rot Prevention', hi: 'प्याज़ नेक रॉट रोकथाम' },
+    date: '05 Jun 2024',
+    severity: 'red',
+    crop: 'onion',
+    treatment: 'Trichoderma harzianum',
+    recommendations: {
+      en: ['Reduce irrigation 2 weeks before harvest', 'Ensure proper field drying', 'Store in cool, dry place'],
+      hi: ['कटाई से 2 हफ्ते पहले सिंचाई कम करें', 'खेत को ठीक से सूखाएँ', 'ठंडे, सूखे स्थान पर रखें'],
+    },
+    status: 'ongoing',
+  },
+  {
+    id: 'report-003',
+    title: { en: 'Wheat Leaf Spot Management', hi: 'गेहूँ पत्ती चित्ती प्रबंधन' },
+    date: '28 May 2024',
+    severity: 'green',
+    crop: 'wheat',
+    treatment: 'Propiconazole 25% EC',
+    recommendations: {
+      en: ['Monitor weekly for new spots', 'Ensure good air circulation', 'Remove crop residue after harvest'],
+      hi: ['साप्ताहिक निरीक्षण करें', 'अच्छी हवा का संचार सुनिश्चित करें', 'कटाई के बाद अवशेष हटाएँ'],
+    },
+    status: 'resolved',
+  },
+]
+
+// Crop health tracking data
+export const cropHealthHistory = [
+  { date: '10 Jun', score: 72, status: 'good', notes: { en: 'Healthy growth', hi: 'स्वस्थ विकास' } },
+  { date: '11 Jun', score: 68, status: 'fair', notes: { en: 'Early blight detected', hi: 'अगेती झुलसा पाया गया' } },
+  { date: '12 Jun', score: 70, status: 'fair', notes: { en: 'Treatment applied', hi: 'उपचार लागू' } },
+]
+
+export const cropHealthScore = {
+  overall: 70,
+  foliage: 'fair',
+  stem: 'good',
+  soil: 'good',
+  disease: 'amber', // presence of disease risk
+}
+
+// Farmer profile data
+export const farmerProfile = {
+  name: { en: 'Ramesh Kumar Singh', hi: 'रमेश कुमार सिंह' },
+  phone: '+91 98765 43210',
+  email: 'ramesh.kumar@email.com',
+  location: { en: 'Nashik, Maharashtra', hi: 'नासिक, महाराष्ट्र' },
+  joinedDate: '2023-06-15',
+  totalLand: { value: 2.5, unit: { en: 'hectares', hi: 'हेक्टेयर' } },
+  crops: [
+    {
+      name: 'tomato',
+      area: { value: 1.0, unit: { en: 'hectares', hi: 'हेक्टेयर' } },
+      soilType: { en: 'Black soil', hi: 'काली मिट्टी' },
+      plantingDate: '2024-03-15',
+      expectedHarvest: '2024-07-15',
+    },
+    {
+      name: 'onion',
+      area: { value: 1.5, unit: { en: 'hectares', hi: 'हेक्टेयर' } },
+      soilType: { en: 'Loamy soil', hi: 'दोमट मिट्टी' },
+      plantingDate: '2024-04-01',
+      expectedHarvest: '2024-08-15',
+    },
+  ],
+  bankDetails: {
+    accountHolder: { en: 'Ramesh Kumar Singh', hi: 'रमेश कुमार सिंह' },
+    bankName: { en: 'SBI Bank', hi: 'एसबीआई बैंक' },
+    accountNumber: '****5678',
+    ifsc: 'SBIN0001234',
+  },
+  schemes: [
+    { id: 's1', name: { en: 'PM-KISAN', hi: 'पीएम-किसान' }, status: 'active', joinedDate: '2023-07-01' },
+    { id: 's2', name: { en: 'PMFBY', hi: 'पीएमएफबीवाई' }, status: 'active', joinedDate: '2024-01-10' },
+  ],
+  stats: {
+    totalReports: 12,
+    resolvedIssues: 10,
+    schemesEnrolled: 2,
+  },
+}
+
+// Settings options for farmer
+export const settingsOptions = {
+  notifications: {
+    diseaseAlerts: true,
+    weatherWarnings: true,
+    priceUpdates: true,
+    schemeReminders: true,
+  },
+  preferences: {
+    language: 'en', // will sync with app context
+    temperatureUnit: 'celsius',
+    areaUnit: 'hectare',
+    currency: 'INR',
+  },
+  privacy: {
+    shareLocationData: true,
+    shareYieldData: false,
+    sharePhoneWithPartners: false,
+  },
+  dataSync: {
+    autoBackup: true,
+    lastSync: '2024-06-12 14:32',
+  },
+}
+
+// Extended disease database for Disease Scan improvements
+export const diseaseDatabase = [
+  {
+    id: 'disease-001',
+    name: { en: 'Early Blight', hi: 'अगेती झुलसा' },
+    crop: 'tomato',
+    symptoms: {
+      en: ['Brown spots on leaves', 'Concentric rings pattern', 'Yellowing around spots', 'Stem lesions'],
+      hi: ['पत्तियों पर भूरे धब्बे', 'संकेंद्रित वलय पैटर्न', 'धब्बों के आसपास पीलापन', 'तने पर घाव'],
+    },
+    treatment: 'Mancozeb 75% WP',
+    preventionTips: {
+      en: ['Proper plant spacing', 'Avoid overhead watering', 'Remove infected leaves', 'Ensure good drainage'],
+      hi: ['उचित पौधा अंतराल', 'ऊपर से सिंचाई न करें', 'संक्रमित पत्तियाँ हटाएँ', 'अच्छी ड्रेनेज'],
+    },
+  },
+  {
+    id: 'disease-002',
+    name: { en: 'Late Blight', hi: 'पिछेती झुलसा' },
+    crop: 'tomato',
+    symptoms: {
+      en: ['Water-soaked spots', 'White mold on underside', 'Rapid spread in wet weather', 'Fruit rot'],
+      hi: ['पानी से भीगे धब्बे', 'निचली ओर सफेद सड़ंध', 'नम मौसम में तेजी से फैलाव', 'फल सड़ना'],
+    },
+    treatment: 'Metalaxyl 8% + Mancozeb 64%',
+    preventionTips: {
+      en: ['Improve air circulation', 'Remove lower leaves', 'Avoid crop contact when wet', 'Burn infected material'],
+      hi: ['हवा का संचार बेहतर करें', 'निचली पत्तियाँ हटाएँ', 'गीली अवस्था में पौधे स्पर्श न करें', 'संक्रमित सामग्री जलाएँ'],
+    },
+  },
+]
+
+// Extended market data for Mandi Prices improvements with trends
+export const mandiPriceTrends = {
+  tomato: {
+    weeklyAverage: 2450,
+    priceChange: '+5.2%',
+    trend: 'upward',
+    recommendation: { en: 'Sell now while prices are high', hi: 'अभी कीमतें अधिक हैं, बेच दें' },
+  },
+  onion: {
+    weeklyAverage: 1820,
+    priceChange: '+2.1%',
+    trend: 'stable',
+    recommendation: { en: 'Wait for festival season surge', hi: 'त्योहारी मौसम का इंतजार करें' },
+  },
+}
+
+// More comprehensive scheme details
+export const schemeDetails = {
+  s1: {
+    fullName: { en: 'Pradhan Mantri Kisan Samman Nidhi', hi: 'प्रधानमंत्री किसान सम्मान निधि' },
+    launchYear: 2019,
+    totalBudget: { en: '₹75,000 crore', hi: '₹75,000 करोड़' },
+    eligibility: {
+      landHolding: { en: 'All landholding farmers', hi: 'सभी भूमि धारक किसान' },
+      income: { en: 'Below ₹1.5 crore annual income', hi: '₹1.5 करोड़ से कम वार्षिक आय' },
+      age: { en: 'No age restriction', hi: 'कोई आयु सीमा नहीं' },
+    },
+    disbursement: { en: '₹6,000 in 3 installments of ₹2,000 each', hi: '3 किश्तों में ₹2,000 प्रत्येक' },
+  },
+  s2: {
+    fullName: { en: 'Pradhan Mantri Fasal Bima Yojana', hi: 'प्रधानमंत्री फसल बीमा योजना' },
+    launchYear: 2016,
+    coverage: { en: 'Upto 70% of crop value', hi: 'फसल मूल्य का 70% तक' },
+    premiumSharing: {
+      kharif: { en: 'Farmer 2%, Government 48%', hi: 'किसान 2%, सरकार 48%' },
+      rabi: { en: 'Farmer 1.5%, Government 48.5%', hi: 'किसान 1.5%, सरकार 48.5%' },
+    },
+  },
+}
+
+// Enhanced weather data with detailed recommendations
+export const weatherAdvisory = [
+  {
+    date: '12 Jun 2024',
+    condition: { en: 'Light showers expected', hi: 'हल्की बारिश की संभावना' },
+    recommendation: { en: 'Spray fungicide before 5 PM', hi: 'शाम 5 बजे से पहले फफूंदनाशक स्प्रे करें' },
+  },
+  {
+    date: '13 Jun 2024',
+    condition: { en: 'Sunny, hot', hi: 'धूप, गर्म' },
+    recommendation: { en: 'Increase irrigation, mulch soil', hi: 'सिंचाई बढ़ाएँ, मल्च लगाएँ' },
+  },
+]
+
+// Seven-day comprehensive forecast
+export const extendedForecast = [
+  { day: 'Mon', temp: 29, minTemp: 22, rain: 65, humidity: 78, windSpeed: 12, icon: 'rain' },
+  { day: 'Tue', temp: 31, minTemp: 24, rain: 20, humidity: 65, windSpeed: 8, icon: 'cloud' },
+  { day: 'Wed', temp: 33, minTemp: 25, rain: 5, humidity: 52, windSpeed: 6, icon: 'sun' },
+  { day: 'Thu', temp: 30, minTemp: 23, rain: 40, humidity: 70, windSpeed: 10, icon: 'cloud' },
+  { day: 'Fri', temp: 28, minTemp: 21, rain: 70, humidity: 80, windSpeed: 14, icon: 'rain' },
+  { day: 'Sat', temp: 32, minTemp: 26, rain: 10, humidity: 60, windSpeed: 7, icon: 'sun' },
+  { day: 'Sun', temp: 34, minTemp: 27, rain: 2, humidity: 48, windSpeed: 5, icon: 'sun' },
+]
