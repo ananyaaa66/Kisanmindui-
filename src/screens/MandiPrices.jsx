@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
-import { MapPin, Navigation, TrendingUp, Clock } from 'lucide-react'
+import { MapPin, Navigation, TrendingUp, Clock, AlertCircle, TrendingDown } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useApp } from '../context/AppContext.jsx'
 import { t } from '../data/i18n.js'
 import Screen from '../components/Screen.jsx'
-import { crops, priceData, mandis } from '../data/mockData.js'
+import { crops, priceData, mandis, mandiPriceTrends } from '../data/mockData.js'
 
 export default function MandiPrices() {
   const { lang } = useApp()
@@ -37,6 +38,41 @@ export default function MandiPrices() {
           {isSell ? <><TrendingUp size={15} /> {t('sellNow', lang)}</> : <><Clock size={15} /> {t('wait', lang)} {d.action.days} {t('days', lang)}</>}
         </span>
         <p className="text-xs text-[var(--text-dim)] mt-2">{d.action.reason[lang]}</p>
+      </div>
+
+      {/* Market trends & recommendations */}
+      <div className="grid grid-cols-2 gap-3 mt-3">
+        {mandiPriceTrends[crop] && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass p-3"
+            >
+              <p className="text-xs text-[var(--text-dim)] mb-1">{lang === 'hi' ? 'साप्ताहिक औसत' : 'Weekly Avg'}</p>
+              <p className="text-lg font-bold text-lime">₹{mandiPriceTrends[crop].weeklyAverage}</p>
+              <p className={`text-xs mt-1 font-semibold ${mandiPriceTrends[crop].priceChange.includes('+') ? 'text-green-400' : 'text-red-400'}`}>
+                {mandiPriceTrends[crop].priceChange}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="glass p-3"
+            >
+              <p className="text-xs text-[var(--text-dim)] mb-1">{lang === 'hi' ? 'रुझान' : 'Trend'}</p>
+              <div className="flex items-center gap-1">
+                {mandiPriceTrends[crop].trend === 'upward' ? (
+                  <TrendingUp size={18} className="text-green-400" />
+                ) : (
+                  <TrendingDown size={18} className="text-red-400" />
+                )}
+                <p className="text-sm font-semibold capitalize">{mandiPriceTrends[crop].trend}</p>
+              </div>
+            </motion.div>
+          </>
+        )}
       </div>
 
       {/* 30-day chart */}

@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { Leaf } from 'lucide-react'
 import LanguageToggle from './components/LanguageToggle.jsx'
 import BottomNav from './components/BottomNav.jsx'
@@ -13,9 +14,20 @@ import DiseaseScan from './screens/DiseaseScan.jsx'
 import MandiPrices from './screens/MandiPrices.jsx'
 import Schemes from './screens/Schemes.jsx'
 import Weather from './screens/Weather.jsx'
+import AdvisoryReports from './screens/AdvisoryReports.jsx'
+import FarmerProfile from './screens/FarmerProfile.jsx'
+import Settings from './screens/Settings.jsx'
 
 export default function App() {
   const { lang } = useApp()
+  const navigate = useNavigate()
+  const [showBottomNav, setShowBottomNav] = useState(true)
+
+  const handleBackFromModal = () => {
+    setShowBottomNav(true)
+    navigate('/')
+  }
+
   return (
     <div className="app-shell">
       <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-ink/70 backdrop-blur-md">
@@ -38,11 +50,14 @@ export default function App() {
           <Route path="/prices" element={<MandiPrices />} />
           <Route path="/schemes" element={<Schemes />} />
           <Route path="/weather" element={<Weather />} />
+          <Route path="/reports" element={<AdvisoryReports onBack={handleBackFromModal} />} />
+          <Route path="/profile" element={<FarmerProfile onBack={handleBackFromModal} />} />
+          <Route path="/settings" element={<Settings onBack={handleBackFromModal} />} />
         </Routes>
       </main>
 
       <MicButton />
-      <BottomNav />
+      {showBottomNav && <BottomNav />}
       <VoiceOverlay />
       <ReportModal />
     </div>

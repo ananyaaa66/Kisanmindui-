@@ -1,9 +1,10 @@
-import { Sun, Cloud, CloudRain, SprayCan, Droplets, Scissors, Sprout } from 'lucide-react'
+import { Sun, Cloud, CloudRain, SprayCan, Droplets, Scissors, Sprout, Wind, Droplet } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useApp } from '../context/AppContext.jsx'
 import { t } from '../data/i18n.js'
 import Screen from '../components/Screen.jsx'
 import SpeakButton from '../components/SpeakButton.jsx'
-import { forecast, actionTimeline, soilTip } from '../data/mockData.js'
+import { forecast, actionTimeline, soilTip, extendedForecast } from '../data/mockData.js'
 
 const wIcon = { sun: Sun, cloud: Cloud, rain: CloudRain }
 const aIcon = { spray: SprayCan, irrigate: Droplets, harvest: Scissors }
@@ -12,18 +13,36 @@ export default function Weather() {
   const { lang } = useApp()
   return (
     <Screen title={t('weatherTitle', lang)} subtitle="Agent 4">
-      {/* 5-day forecast strip */}
-      <p className="text-sm font-semibold mb-2">{t('forecast', lang)}</p>
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-        {forecast.map((f, i) => {
+      {/* 7-day forecast detailed */}
+      <p className="text-sm font-semibold mb-3">{t('sevenDayForecast', lang)}</p>
+      <div className="space-y-2 mb-4">
+        {extendedForecast.map((f, i) => {
           const Icon = wIcon[f.icon]
           return (
-            <div key={i} className="glass shrink-0 w-[72px] p-3 flex flex-col items-center gap-1.5">
-              <span className="text-xs text-[var(--text-dim)]">{f.day[lang]}</span>
-              <Icon size={24} className={f.icon === 'rain' ? 'text-lime' : 'text-cropbright'} />
-              <span className="num text-lg font-bold">{f.temp}°</span>
-              <span className="text-[10px] text-lime">{f.rain}%</span>
-            </div>
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className="glass p-3 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3 flex-1">
+                <div className="w-12 text-center">
+                  <p className="text-xs text-[var(--text-dim)]">{f.day}</p>
+                </div>
+                <Icon size={20} className={f.icon === 'rain' ? 'text-lime' : 'text-cropbright'} />
+              </div>
+              <div className="flex items-center gap-4 flex-1">
+                <div className="text-right">
+                  <p className="text-xs text-[var(--text-dim)]">{lang === 'hi' ? 'तापमान' : 'Temp'}</p>
+                  <p className="num text-sm font-bold">{f.minTemp}°-{f.temp}°C</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-[var(--text-dim)]">{lang === 'hi' ? 'वर्षा' : 'Rain'}</p>
+                <p className="text-sm font-semibold text-lime">{f.rain}%</p>
+              </div>
+            </motion.div>
           )
         })}
       </div>

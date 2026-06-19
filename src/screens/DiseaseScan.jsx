@@ -51,8 +51,9 @@ export default function DiseaseScan() {
 
       {state === 'result' && (
         <div className="space-y-3 animate-sprout">
+          {/* Disease identification card */}
           <div className="glass active p-4">
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between mb-4">
               <div>
                 <p className="text-xs text-[var(--text-dim)]">{D.pathogen}</p>
                 <h3 className="text-xl font-bold">{D.name[lang]}</h3>
@@ -61,14 +62,36 @@ export default function DiseaseScan() {
                 {t('severity', lang)}: {sevLabel[D.severity][lang]}
               </span>
             </div>
-            <div className="flex items-center gap-4 mt-3">
-              <RadialGauge value={D.affectedPct} severity={D.severity} />
-              <div className="flex-1">
-                <p className="text-sm text-[var(--text-dim)]">{t('affected', lang)}</p>
-                <p className="text-sm mt-2">{lang === 'hi' ? 'पत्ती पर मध्यम स्तर का संक्रमण देखा गया।' : 'Moderate infection detected on the leaf surface.'}</p>
-                <div className="mt-2"><SpeakButton text={`${D.name[lang]}, ${D.affectedPct}% ${t('affected', lang)}`} /></div>
+            
+            {/* Before-After comparison */}
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              <div className="aspect-square rounded-lg bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 flex items-center justify-center">
+                <div className="text-center">
+                  <p className="text-xs text-green-300 mb-1">{lang === 'hi' ? 'सामान्य' : 'Healthy'}</p>
+                  <p className="text-2xl">🍃</p>
+                </div>
+              </div>
+              <div className="aspect-square rounded-lg bg-gradient-to-br from-amber-500/20 to-red-600/20 border border-amber-500/30 flex items-center justify-center">
+                <div className="text-center">
+                  <p className="text-xs text-amber-300 mb-1">{lang === 'hi' ? 'संक्रमित' : 'Infected'}</p>
+                  <p className="text-2xl">🦠</p>
+                </div>
               </div>
             </div>
+
+            {/* Confidence & Affected area */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div>
+                <p className="text-xs text-[var(--text-dim)] mb-1">{lang === 'hi' ? 'विश्वास स्तर' : 'Confidence'}</p>
+                <p className="text-lg font-bold text-lime">92%</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <RadialGauge value={D.affectedPct} severity={D.severity} />
+              </div>
+            </div>
+
+            <p className="text-sm text-[var(--text-dim)]">{lang === 'hi' ? 'पत्ती पर मध्यम स्तर का संक्रमण देखा गया। तुरंत उपचार अनुशंसित है।' : 'Moderate infection detected on the leaf surface. Immediate treatment recommended.'}</p>
+            <div className="mt-3"><SpeakButton text={`${D.name[lang]}, ${D.affectedPct}% ${t('affected', lang)}, confidence 92%`} /></div>
           </div>
 
           <div className="glass p-4">
